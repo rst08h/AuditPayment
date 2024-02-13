@@ -57,8 +57,8 @@ def process_file():
             txtbox1.yview_pickplace("end")
             while line != '':
                 # print(line)
-                if (line[0] != '0') and (line[0] != '1') and (line[0] != '2') and (line[0] != '3') and (line[0] != '#'):
-                    file2.write('#'+line)
+                if (line[0] != '0') and (line[0] != '1') and (line[0] != '2') and (line[0] != '3') and (line[0] != '`'):
+                    file2.write('`'+line)
                     if pwabranch == None:
                         if line.find('กปภ.') > 0:
                             pwabranch = line[line.find('กปภ.'):-1].rstrip()
@@ -86,7 +86,7 @@ def process_file():
                         'payee_name', 'description', 'amount', 'collected']
 
             df1 = pd.read_table(saptextfile2, sep='\t', engine='python', date_parser=dateparse, parse_dates=[
-                'posting_date'], header=None, usecols=cols, names=colsname, comment='#', dtype={'doctype': 'category', 'collected': 'category'}, encoding='utf-8')
+                'posting_date'], header=None, usecols=cols, names=colsname, comment='`', dtype={'doctype': 'category', 'collected': 'category'}, encoding='utf-8')
             df1.doc_no = df1.doc_no.astype('str')
             #df1['amount'] = df1['amount'].str.replace(',', '')
             df1.sort_values('posting_date')
@@ -106,7 +106,7 @@ def process_file():
 
             
 
-            result_filename = result_path +  '\กระดาษทำการจ่ายเงิน ' + pwabranch +'_'+misc.thaidate(dmin)+'-'+misc.thaidate(dmax) + '.xlsx'
+            result_filename = result_path +  '/กระดาษทำการจ่ายเงิน ' + pwabranch +'_'+misc.thaidate(dmin)+'-'+misc.thaidate(dmax) + '.xlsx'
             xlwb = Workbook()
             # xlsheet=xlwb.create_sheet('สรุป')
             xlsheet = xlwb.active
@@ -436,7 +436,7 @@ tk.Button(upper_panel2, text="เลือกไฟล์",
           command=btn2_command).pack(side="left")
 submit_btn = tk.Button(upper_panel3, text="ดำเนินการ", command=process_command)
 submit_btn.pack(side='left')
-tk.Label(upper_panel3,text='เวอร์ชัน 1.04.00 [วันที่ 7 กุมภาพันธ์ 2567]',fg='#0000ff').pack()
+tk.Label(upper_panel3,text='เวอร์ชัน 1.05.00 [วันที่ 13 กุมภาพันธ์ 2567]',fg='#0000ff').pack()
 # เวอร์ชัน 1.00.00 เป็นตัวแรก
 #
 # 6 ธันวาคม 2566
@@ -448,7 +448,9 @@ tk.Label(upper_panel3,text='เวอร์ชัน 1.04.00 [วันที่
 # เวอร์ชัน 1.03.01 ปรับปรุงให้บันทึก result ไว้ directory เดียวกับไฟล์ข้อมูลเนื่องจาบัค onedrive จะบันทึกลง desktop ไม่ได้
 # 7 กุมภาพันธ์ 2567
 # เวอร์ชัน 1.04.00 แก้บัคเปิดไฟล์ ZFARP08 เปลี่ยนอัลกอริธึมใหม่
-
+# 13 กุมภาพันธ์ 2567
+# เวอร์ชัน 1.05.00 แก้บัค User ใส่ # ในรายละเอียด ทำให้ pandas ไม่ประมวลผลเนื่องจากได้กำหนด # เป็นคอมเม้น
+# แก้ไขโดยเปลี่ยน comment เป็น ` แทนเหตุผลที่ใช้ตัวนี้คือ ปกติ windows ไม่สามารถพิมพ์อักษรตัวนี้ได้
 txtbox1 = tk.Text(window, font=('Tahoma', 12))
 #txtbox1 = tk.scrolledtext.ScrolledText(window)
 #v=tk.Scrollbar(lower_panel, orient='vertical')
